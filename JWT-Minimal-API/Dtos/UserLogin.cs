@@ -1,4 +1,4 @@
-﻿namespace JWT_Minimal_API.DTO
+﻿namespace JWT_Minimal_API.Dtos
 {
     public class UserLogin
     {

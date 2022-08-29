@@ -1,6 +1,6 @@
 using HealthChecks.UI.Client;
-using JWT_Minimal_API.DTO;
-using JWT_Minimal_API.Helpers;
+using JWT_Minimal_API.Configuration;
+using JWT_Minimal_API.Dtos;
 using JWT_Minimal_API.Models;
 using JWT_Minimal_API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace JWT_Minimal_API.Helpers
+namespace JWT_Minimal_API.Configuration
 {
-    public static class JWTAuthenticationExtensions
+    public static class ConfigureJWTAuthentication
     {
         public static IServiceCollection AddJWTAuthentication(this IServiceCollection services, ConfigurationManager config)
         {

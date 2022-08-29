@@ -1,4 +1,4 @@
-﻿using JWT_Minimal_API.DTO;
+﻿using JWT_Minimal_API.Dtos;
 using JWT_Minimal_API.Models;
 using JWT_Minimal_API.Repositories;
 using Microsoft.IdentityModel.Tokens;
