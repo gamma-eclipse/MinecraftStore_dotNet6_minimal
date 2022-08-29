@@ -37,7 +37,7 @@ namespace JWT_Minimal_API.Application.Services
                 audience: _config["JWT:Audience"],
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"])), SecurityAlgorithms.HmacSha256),
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(30),
+                expires: DateTime.UtcNow.AddDays(2),
                 notBefore: DateTime.UtcNow
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

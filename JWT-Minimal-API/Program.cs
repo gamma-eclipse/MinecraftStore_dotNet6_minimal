@@ -1,4 +1,3 @@
-using System.Reflection;
 using HealthChecks.UI.Client;
 using JWT_Minimal_API.Application.Commands;
 using JWT_Minimal_API.Application.Dtos;
