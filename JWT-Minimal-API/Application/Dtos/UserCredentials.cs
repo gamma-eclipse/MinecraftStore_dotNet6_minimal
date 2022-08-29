@@ -1,6 +1,6 @@
-﻿namespace JWT_Minimal_API.Dtos
+﻿namespace JWT_Minimal_API.Application.Dtos
 {
-    public class UserLogin
+    public class UserCredentials
     {
         public string Username { get; set; }
         public string Password { get; set; }

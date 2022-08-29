@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Validation\" />
+    <Folder Include="Application\Mapping\" />
     <Folder Include="Logs\" />
   </ItemGroup>
 

@@ -1,11 +1,16 @@
+using System.Reflection;
 using HealthChecks.UI.Client;
+using JWT_Minimal_API.Application.Commands;
+using JWT_Minimal_API.Application.Dtos;
+using JWT_Minimal_API.Application.Models;
+using JWT_Minimal_API.Application.Queries;
+using JWT_Minimal_API.Application.Services;
 using JWT_Minimal_API.Configuration;
-using JWT_Minimal_API.Dtos;
-using JWT_Minimal_API.Models;
-using JWT_Minimal_API.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +30,9 @@ builder.Services.AddHealthChecks();
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 builder.Services.AddScoped<IUserService, UserService>();
+
+
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -56,54 +64,25 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
 
 app.MapHealthChecksUI().WithMetadata(new AllowAnonymousAttribute());
 
-app.MapGet("/", () => "Hello in JWT .NET6 Minimal API!")
-    .ExcludeFromDescription();
+app.MapGet("/user", async (IMediator _mediator,HttpContext _context) =>
+        {
+            var query = new GetAuthorizedUserQuery(_context);
+            var response = await _mediator.Send(query);
+            
+            //some mapping
 
-app.MapGet("/user",
-(HttpContext httpContext, IUserService service) => GetUserClaims(httpContext, service))
+            return Results.Ok(response);
+        })
     .Produces<User>(statusCode: 200, contentType: "application/json");
 
-app.MapPost("/login", [AllowAnonymous]
-(UserLogin user, IUserService service) => Login(user, service))
-    .Accepts<UserLogin>("application/json")
+app.MapPost("/login", [AllowAnonymous] async ([FromBody]UserCredentials user,IMediator _mediator) =>
+    {
+        var command = new LoginCommand(user);
+        var result = await _mediator.Send(command);
+        return result;
+    })
+    .Accepts<UserCredentials>("application/json")
     .Produces<string>(statusCode: 200, contentType: "application/json");
 
-IResult Login(UserLogin user, IUserService service)
-{
-
-    Log.Information($"Attempt login for user {user.Username}");
-
-    if (!string.IsNullOrEmpty(user.Username) && !string.IsNullOrEmpty(user.Password))
-    {
-
-        var loggedInUser = service.GetUser(user);
-
-        if (loggedInUser is null) return Results.NotFound("User not found");
-
-        var tokenString = service.GenerateToken(loggedInUser);
-
-        return Results.Ok(tokenString);
-
-    }
-
-    return Results.BadRequest("Invalid user credentials");
-
-}
-
-IResult GetUserClaims(HttpContext httpContext, IUserService service)
-{
-
-    Log.Information($"Getting user claims");
-
-    var userInfo = service.GetUserClaims(httpContext);
-   
-    if (userInfo is not null)
-    {
-        return Results.Ok(userInfo);
-    }
-
-    return Results.BadRequest();
-
-}
 
 app.Run();

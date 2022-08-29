@@ -1,12 +1,12 @@
-﻿using JWT_Minimal_API.Dtos;
-using JWT_Minimal_API.Models;
-using JWT_Minimal_API.Repositories;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using JWT_Minimal_API.Application.Dtos;
+using JWT_Minimal_API.Application.Models;
+using JWT_Minimal_API.Application.Repositories;
+using Microsoft.IdentityModel.Tokens;
 
-namespace JWT_Minimal_API.Services
+namespace JWT_Minimal_API.Application.Services
 {
     public class UserService : IUserService
     {
@@ -15,10 +15,10 @@ namespace JWT_Minimal_API.Services
         {
             _config = configuration;
         }
-        public User GetUser(UserLogin userLogin)
+        public User? GetUser(UserCredentials userCredentials)
         {
             IUserRepository repository = new MockingUserRepository();
-            var user = repository.GetUsers().FirstOrDefault(o => o.Username.Equals(userLogin.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userLogin.Password));
+            var user = repository.GetUsers().FirstOrDefault(o => o.Username.Equals(userCredentials.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
             return user;
         }
         public string GenerateToken(User loggedInUser)

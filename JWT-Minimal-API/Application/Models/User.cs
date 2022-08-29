@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JWT_Minimal_API.Models
+namespace JWT_Minimal_API.Application.Models
 {
     public class User
     {
