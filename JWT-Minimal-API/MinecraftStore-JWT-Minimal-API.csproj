@@ -32,6 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Extensions\" />
+    <Folder Include="Application\Middlewares\" />
     <Folder Include="Application\Models\Managed\" />
     <Folder Include="Logs\" />
   </ItemGroup>
