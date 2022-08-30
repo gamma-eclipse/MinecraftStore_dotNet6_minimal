@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using JWT_Minimal_API.Application.Dtos;
-using JWT_Minimal_API.Application.Models;
+using JWT_Minimal_API.Application.Models.Db;
 using JWT_Minimal_API.Application.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,13 +15,14 @@ namespace JWT_Minimal_API.Application.Services
         {
             _config = configuration;
         }
-        public User? GetUser(UserCredentials userCredentials)
+        public User? GetUserByCredentials(UserCredentials userCredentials)
         {
-            IUserRepository repository = new MockingUserRepository();
-            var user = repository.GetUsers().FirstOrDefault(o => o.Username.Equals(userCredentials.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
+            IUserRepository userRepository = new MockingUserRepository();
+            var user = userRepository.GetAll()
+                .FirstOrDefault(o => o.Username.Equals(userCredentials.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
             return user;
         }
-        public string GenerateToken(User loggedInUser)
+        public string GenerateUserJWTToken(User loggedInUser)
         {
             var claims = new[]
             {
@@ -42,7 +43,6 @@ namespace JWT_Minimal_API.Application.Services
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
             return tokenString;
-
         }
         public User GetUserClaims(HttpContext httpContext)
         {

@@ -1,4 +1,4 @@
-﻿using JWT_Minimal_API.Application.Models;
+﻿using JWT_Minimal_API.Application.Models.Db;
 using JWT_Minimal_API.Application.Queries;
 using JWT_Minimal_API.Application.Services;
 using MediatR;

@@ -1,7 +1,8 @@
 using HealthChecks.UI.Client;
 using JWT_Minimal_API.Application.Commands;
 using JWT_Minimal_API.Application.Dtos;
-using JWT_Minimal_API.Application.Models;
+using JWT_Minimal_API.Application.Mapping;
+using JWT_Minimal_API.Application.Models.Db;
 using JWT_Minimal_API.Application.Queries;
 using JWT_Minimal_API.Application.Services;
 using JWT_Minimal_API.Configuration;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(TempAppMappingProfile));
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

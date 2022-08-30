@@ -1,12 +1,10 @@
-﻿using System.Text.Json.Serialization;
-
-namespace JWT_Minimal_API.Application.Models
+﻿namespace JWT_Minimal_API.Application.Dtos
 {
-    public class User
+    [Serializable]
+    public class UserRegistrationData
     {
         public string Username { get; set; }
         public string EmailAddress { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
