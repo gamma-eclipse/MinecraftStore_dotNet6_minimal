@@ -10,6 +10,7 @@ namespace JWT_Minimal_API.Application.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUserRepository userRepository = new MockingUserRepository();
         private readonly IConfiguration _config;
         public UserService(IConfiguration configuration)
         {
@@ -17,7 +18,7 @@ namespace JWT_Minimal_API.Application.Services
         }
         public User? GetUserByCredentials(UserCredentials userCredentials)
         {
-            IUserRepository userRepository = new MockingUserRepository();
+            
             var user = userRepository.GetAll()
                 .FirstOrDefault(o => o.Username.Equals(userCredentials.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
             return user;
@@ -28,8 +29,8 @@ namespace JWT_Minimal_API.Application.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, loggedInUser.Username),
                 new Claim(ClaimTypes.Email, loggedInUser.EmailAddress),
-                new Claim(ClaimTypes.GivenName, loggedInUser.GivenName),
-                new Claim(ClaimTypes.Surname, loggedInUser.Surname),
+                //new Claim(ClaimTypes.GivenName, loggedInUser.GivenName),
+                //new Claim(ClaimTypes.Surname, loggedInUser.Surname),
                 new Claim(ClaimTypes.Role, loggedInUser.Role)
             };
             var token = new JwtSecurityToken
@@ -58,6 +59,12 @@ namespace JWT_Minimal_API.Application.Services
             };
             return user;
 
+        }
+
+        public void AddUser(User user)
+        {
+            //mock?
+            userRepository.Add(user);
         }
     }
 }

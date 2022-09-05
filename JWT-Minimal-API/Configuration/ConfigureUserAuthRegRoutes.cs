@@ -1,7 +1,10 @@
-﻿using JWT_Minimal_API.Application.Commands;
+﻿using AutoMapper;
+using JWT_Minimal_API.Application.Commands;
 using JWT_Minimal_API.Application.Dtos;
 using JWT_Minimal_API.Application.Models.Db;
 using JWT_Minimal_API.Application.Queries;
+using JWT_Minimal_API.Application.Repositories;
+using JWT_Minimal_API.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +34,15 @@ namespace JWT_Minimal_API.Configuration
                 })
                 .Accepts<UserCredentials>("application/json")
                 .Produces<string>(statusCode: 200, contentType: "application/json");
+
+            app.MapPost("/register", [AllowAnonymous] async ([FromBody] UserRegistrationData registrationData, IMediator _mediator,IMapper _mapper,IUserService userService) =>
+                {
+                    var Command = new RegistrationCommand(registrationData, _mapper,userService,_mediator);
+                    var result = await _mediator.Send(Command);
+                    return result;
+                })
+                .Accepts<UserRegistrationData>("application/json")
+                .Produces<string>(statusCode: 200, contentType: "application/json"); ;
             return app;
         }
     }

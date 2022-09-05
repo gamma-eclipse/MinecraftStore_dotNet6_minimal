@@ -24,7 +24,7 @@ builder.Services.AddSwaggerJWTAuth();
 builder.Services.AddHealthChecks();
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IUserService, UserService>();//for Test
 
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());

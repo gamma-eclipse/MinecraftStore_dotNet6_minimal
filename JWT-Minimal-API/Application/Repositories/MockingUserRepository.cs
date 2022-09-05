@@ -21,7 +21,7 @@ namespace JWT_Minimal_API.Application.Repositories
 
         public void Add(User entity)
         {
-            throw new NotImplementedException();
+            Users.Add(entity);
         }
 
         public void Update(User entity)

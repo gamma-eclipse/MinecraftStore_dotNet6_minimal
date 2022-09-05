@@ -8,5 +8,6 @@ namespace JWT_Minimal_API.Application.Services
         public User? GetUserByCredentials(UserCredentials userCredentials);
         string GenerateUserJWTToken(User loggedInUser);
         User? GetUserClaims(HttpContext httpContext);
+        void AddUser(User user);
     }
 }
