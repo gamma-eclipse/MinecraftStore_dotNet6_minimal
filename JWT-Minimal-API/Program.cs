@@ -1,4 +1,3 @@
-using HealthChecks.UI.Client;
 using JWT_Minimal_API.Application.Mapping;
 using JWT_Minimal_API.Application.Services;
 using JWT_Minimal_API.Configuration;
@@ -22,7 +21,6 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerJWTAuth();
 builder.Services.AddHealthChecks();
-builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
 builder.Services.AddSingleton<IUserService, UserService>();//for Test
 
@@ -51,14 +49,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 app.UseAuthentication();
 app.UseHttpsRedirection();
-
-app.MapHealthChecks("/health", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-}).WithMetadata(new AllowAnonymousAttribute());
-
-app.MapHealthChecksUI().WithMetadata(new AllowAnonymousAttribute());
 
 app.AddUserEndpoints();
 
