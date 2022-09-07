@@ -16,11 +16,11 @@ namespace JWT_Minimal_API.Application.Services
         {
             _config = configuration;
         }
-        public User? GetUserByCredentials(UserCredentials userCredentials)
+        public User? GetUserByCredentials(UserCredentialsData userCredentialsData)
         {
             
             var user = userRepository.GetAll()
-                .FirstOrDefault(o => o.Username.Equals(userCredentials.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentials.Password));
+                .FirstOrDefault(o => o.Username.Equals(userCredentialsData.Username, StringComparison.OrdinalIgnoreCase) && o.Password.Equals(userCredentialsData.Password));
             return user;
         }
         public string GenerateUserJWTToken(User loggedInUser)

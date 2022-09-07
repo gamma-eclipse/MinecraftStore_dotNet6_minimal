@@ -26,7 +26,7 @@ namespace JWT_Minimal_API.Application.Handlers
 
             request.UserService.AddUser(User);
 
-            var LoginCommand = new LoginCommand(request.Mapper.Map<UserCredentials>(data));
+            var LoginCommand = new LoginCommand(request.Mapper.Map<UserCredentialsData>(data));
 
             var token = await request.Mediator.Send(LoginCommand, cancellationToken);
 

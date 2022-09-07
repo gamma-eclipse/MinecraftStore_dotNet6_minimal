@@ -3,7 +3,7 @@ using JWT_Minimal_API.Application.Dtos;
 
 namespace JWT_Minimal_API.Application.Validation
 {
-    public class UserCredentialsValidator: AbstractValidator<UserCredentials>
+    public class UserCredentialsValidator: AbstractValidator<UserCredentialsData>
     {
         public UserCredentialsValidator()
         {

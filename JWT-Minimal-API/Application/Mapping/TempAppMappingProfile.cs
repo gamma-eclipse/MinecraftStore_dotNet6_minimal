@@ -9,7 +9,7 @@ namespace JWT_Minimal_API.Application.Mapping
         public TempAppMappingProfile()
         {
             CreateMap<UserRegistrationData,User>();
-            CreateMap<UserRegistrationData, UserCredentials>();
+            CreateMap<UserRegistrationData, UserCredentialsData>();
         }
     }
 }
